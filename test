@@ -1,0 +1,9 @@
+#!/usr/bin/perl
+use Digest::MD5 qw(md5_hex);
+use File::stat;
+
+my $r = "asdfsdfasd";
+my $s = md5_hex($r);
+my $path_md5 = join "", join("/", substr($s, 0, 1), substr($s, 1, 1), substr($s, 2)), ".html";
+my $filepath = "/data/www/".$path_md5;
+print $filepath."\n";
