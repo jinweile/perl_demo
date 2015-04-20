@@ -26,7 +26,7 @@ sub urlhandler {
 	my $url = "http://pic11.shangpin.com/e/s/15/04/17/20150417165117999215-960-470.jpg";
 
 	#1.reg test url rule
-	if($url =~ /^http:\/\/pic\d+?\.shangpin\.com(\/[a-z]+?\/[a-z]+?\/)\d{2}\/\d{2}\/\d{2}\/(\d{20})\-(\d{3})\-(\d{3})\.(jpg|png)$/){
+	if($url =~ /^http:\/\/pic\d+?\.shangpin\.com(\/[a-z]{1}\/[a-z]{1}\/)\d{2}\/\d{2}\/\d{2}\/(\d{20})\-(\d{3})\-(\d{3})\.(jpg|png)$/){
 		print "test true\n";
 		print "$1\n";
 		print "$2\n";
@@ -34,13 +34,26 @@ sub urlhandler {
 		print "$4\n";
 		print "$5\n";
 		$logger->info("test true");
-		#2.test true
+
+		#2.test true, first from memcached get cached url and redirect
 		#my $cache = Cache::Memcached->new(servers => [$memcached_servers]);
 		#my $real_url = $cache->get();
 
+		my $table_name;
+		#get sqlserver table name
+		if($1 eq "/e/s/") {
+			$table_name = "es";
+			print "$table_name\n";
+		} else if ($1 eq "/e/s/") {
+
+		} else if($1 eq "/e/s/") {
+
+		}
+
 		#declare sqlserver conn
 
-		#get memached or sqlserver url monitor real url
+		#get sqlserver url monitor real url and add cached to memcached
+		
 	} else {
 		print "test false\n";
 		$logger->info("test false");
