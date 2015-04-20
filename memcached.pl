@@ -12,5 +12,8 @@ foreach my $server(@servers){
 		if($i % 10 ==0 ){
 			print "already okay";
 		}
+		if($i == 99){
+			print "\n";
+		}
 	}
 }
