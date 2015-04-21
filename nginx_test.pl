@@ -44,9 +44,9 @@ sub urlhandler {
 		if($1 eq "/e/s/") {
 			$table_name = "es";
 			print "$table_name\n";
-		} else if ($1 eq "/e/s/") {
+		} elsif ($1 eq "/e/s/") {
 
-		} else if($1 eq "/e/s/") {
+		} elsif($1 eq "/e/s/") {
 
 		}
 
