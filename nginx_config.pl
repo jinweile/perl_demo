@@ -21,7 +21,7 @@ use Switch;
 		my $user="writeuser";
 		my $auth="write\@520";
 		my $url = "/e/u/15/04/17/20130828174558463186-0-470.jpg";
-		if($url =~ /^(\/[a-z]{1}\/[a-z]{1}\/)\d{2}\/\d{2}\/\d{2}\/(\d{20})\-(\d+?)\-(\d+?)\.(jpg|png)$/){
+		if($url =~ /^(\/[a-z]{1}\/[a-z]{1}\/)\d{2}\/\d{2}\/\d{2}\/(\d{20})\-(\d+?)\-(\d+?)\.[a-zA-Z]+?$/){
 			print "true\n";
 			my $file_path = "";
 			my $index = 0;
