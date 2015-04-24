@@ -1,11 +1,5 @@
 #!/usr/bin/perl -w
 
-use Data::Dumper;
-use DBI;
-use DBD::Sybase;
-use Cache::Memcached;
-use Switch;
-
 	use Data::Dumper;
 	use DBI;
 	use DBD::Sybase;
