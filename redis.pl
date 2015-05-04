@@ -55,10 +55,11 @@ $sqlserver->disconnect;
 
 sub gettime{
 	my $time = shift || (time() - 60 * 60);
-	print $time."\n";
+	#print $time."\n";
 	my($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($time);
 	$year = $year + 1900;
 	$mon = ($mon +1 < 10) ? "0".($mon +1) : ($mon +1);
+	$mday = ($mday < 10) ? "0".$mday : $mday;
 	$hour = ($hour < 10) ? "0".$hour : $hour;
 	return {"day" => "$year-$mon-$mday", "hour" => "$hour"};
 }

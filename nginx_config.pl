@@ -9,14 +9,14 @@
 		my @pic_wid = (0,140,174,320,383,640,800);
 		my @user_pic_wid = (0,140);
 		my @sys_pic_wid = (0,140);
-		my @memcached_servers = ("localhost:11211");
-		my $database="ComBeziPic";
+		my @memcached_servers = ("172.20.10.237:11211","172.20.10.238:11211");
+		my $database="ComBeziPicLab";
 		my $dsn = "dbi:Sybase:server=fastdfs;database=$database";
 		my $user="writeuser";
 		my $auth="write\@520";
-		my $url = "/e/u/15/04/17/20130828174558463186-0-470.jpg";
+		#my $r = shift;
+		my $url = "http://pic13.shangpin.com/f/p/15/03/27/20150327102039892395-210-280.jpg";
 		if($url =~ /^(\/[a-z]{1}\/[a-z]{1}\/)\d{2}\/\d{2}\/\d{2}\/(\d{20})\-(\d+?)\-(\d+?)\.[a-zA-Z]+?$/){
-			print "true\n";
 			my $file_path = "";
 			my $index = 0;
 			my @temp_array;
@@ -39,16 +39,13 @@
 			if($file_path eq ""){
 				$file_path = "FilePath0";
 			}
-			print $file_path."\n";
 			my $cached_key = "fastdfs_".$1."_".$2;
 			my $cache = Cache::Memcached->new(servers => [@memcached_servers]);
 			my $real_url = $cache->get($cached_key);
 			if($real_url) {
-				print $real_url->{$file_path}."\n";
 				return $real_url->{$file_path};
 			}
 			my $table_name;
-			print $1."\n";
 			if($1 eq "/f/p/") {
 				$table_name = "ProductPic";
 			} elsif ($1 eq "/e/u/") {
@@ -56,8 +53,7 @@
 			} elsif($1 eq "/e/s/") {
 				$table_name = "SystemPic";
 			}
-			my $sql = "select * from $table_name where PictureFileNo = '$2'";
-			print $sql."\n";
+			my $sql = "select * from $table_name where PictureFileNo = \'$2\'";
 			my $dbh = DBI->connect($dsn, $user, $auth, {RaiseError => 1, AutoCommit => 1}) 
 					|| die "Database connection not made: $DBI::errstr";
 			my $item = $dbh->selectrow_hashref($sql);
@@ -66,7 +62,6 @@
 			$cache->disconnect_all;
 			return $item->{$file_path};
 		} else {
-			print "false\n";
 			return $url;
 		}
 	}
