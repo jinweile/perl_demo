@@ -1,8 +1,12 @@
 #!/usr/bin/perl -w
 
 use strict;
+use Digest::MD5 qw(md5_hex);
  
 my $request = "manual=true&model=iPhone%20Simulator&ver=2.7.2&signKey=43087115F6EDFC293E14C9C036C3F885";
+my $md5result = md5_hex($request);
+print $md5result."\n";
+
 my @querys = split(/&/, $request);
 my %query_hash;
 foreach my $query (@querys) {
