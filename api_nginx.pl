@@ -1,11 +1,14 @@
 #!/usr/bin/perl -w
 
+package md5;
+
+use nginx;
 use strict;
 use Digest::MD5 qw(md5_hex);
 use Log::Log4perl;
 
 #init logger
-Log::Log4perl->init("./log4perl.conf");
+Log::Log4perl->init("/log/log4perl.conf");
  
  sub handler {
 	#init logger
@@ -40,21 +43,28 @@ Log::Log4perl->init("./log4perl.conf");
  		"/api/buyNow" => "",
  		"/api/modifyOrderInfo" => ""
  	);
- 	#my $r = shift;
- 	#my $p = $r->header_in("p");
+ 	my $r = shift;
+	#my $p = $r->header_in("p");
  	#my $ver = $r->header_in("ver");
  	#my $userid = $r->header_in("userid");
  	#my $sign = $r->header_in("sign");
- 	#my $current_url = $r->uri;
- 	#my $request = $r->args;
+ 	my $current_url = $r->uri;
+ 	my $request = $r->args;
 	my $p = "2";
  	my $ver = "2.6.1";
  	my $userid = "43087115F6EDFC293E14C9C036C3F885";
  	my $sign = "6d342452c6e225923fac02f372e4f724";
- 	my $current_url = "/api/modifyOrderInfo";
-	my $request = "manual=true&model=iPhone%20Simulator&ver=2.7.2";
+ 	#my $current_url = "/user/find";
+	#my $request = "manual=true&model=iPhone%20Simulator&ver=2.7.2";
 
 	$logger->info("p:".$p."ver:".$ver."userid:".$userid.",sign:".$sign.",current_url:".$current_url.",request:".$request);
+
+ 	#compare current_url url
+ 	if(!exists($url_hash{$current_url})) {
+		$logger->info("!exists:".$current_url);
+		return OK;
+ 		#return $current_url."?".$request;
+ 	}
 
 	#compare p and ver
 	my $version = 0;
@@ -65,21 +75,12 @@ Log::Log4perl->init("./log4perl.conf");
 	}
 	print "version:".$version."\n";
 	$ver =~ s/\.//g;
-	if ($ver > $version) {
-		print $ver."\n";
-		return "yes";
-	} else {
-		print $ver."\n";
-		return "no";
+	$logger->info("version:".$version.",ver:".$ver);
+	if ($ver < $version) {
+		$logger->info("ver < version");
+		return OK;
 	}
-
- 	#compare current_url url
- 	if(!exists($url_hash{$current_url})) {
- 		print "dddd\n";
- 		print $current_url."?".$request;
- 		return $current_url."?".$request;
- 	}
- 	print "cccc\n";
+	$logger->info("version < ver");
 
 	my @querys = split(/&/, $request);
 	my %query_hash;
@@ -97,21 +98,20 @@ Log::Log4perl->init("./log4perl.conf");
 		}
 		my $value = $query_hash{$key};
 		$request_sort .= $key."=".$value;
-		print $key.":".$value."\n";
 		$i++;
 	}
 	$request_sort .= "&signKey=".$userid;
 
-	print $request_sort."\n";
+	$logger->info("md5 url : ".$request_sort);
 	my $md5result = md5_hex($request_sort);
-	print $md5result."\n";
+	$logger->info("md5result : ".$md5result);
 	if($md5result eq $sign) {
-		print "true\n";
- 		return $current_url."?".$request;
+		$logger->info("sign true : ".$current_url."?".$request);
+ 		return OK;
 	} else {
-		print "false\n";
- 		return "localhost/404.html";
+		$logger->info("sign false : ".$current_url."?".$request);
+ 		return DECLINED;
 	}
  }
 
- print handler()."\n";
+ 1;
