@@ -44,16 +44,16 @@ Log::Log4perl->init("/log/log4perl.conf");
  		"/api/modifyOrderInfo" => ""
  	);
  	my $r = shift;
-	#my $p = $r->header_in("p");
- 	#my $ver = $r->header_in("ver");
- 	#my $userid = $r->header_in("userid");
- 	#my $sign = $r->header_in("sign");
+	my $p = $r->header_in("p");
+ 	my $ver = $r->header_in("ver");
+ 	my $userid = $r->header_in("userid");
+ 	my $sign = $r->header_in("sign");
  	my $current_url = $r->uri;
  	my $request = $r->args;
-	my $p = "2";
- 	my $ver = "2.6.1";
- 	my $userid = "43087115F6EDFC293E14C9C036C3F885";
- 	my $sign = "6d342452c6e225923fac02f372e4f724";
+	#my $p = "2";
+ 	#my $ver = "2.6.1";
+ 	#my $userid = "43087115F6EDFC293E14C9C036C3F885";
+ 	#my $sign = "6d342452c6e225923fac02f372e4f724";
  	#my $current_url = "/user/find";
 	#my $request = "manual=true&model=iPhone%20Simulator&ver=2.7.2";
 
@@ -115,3 +115,4 @@ Log::Log4perl->init("/log/log4perl.conf");
  }
 
  1;
+__END__
