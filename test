@@ -8,5 +8,5 @@ use File::stat;
 # my $filepath = "/data/www/".$path_md5;
 # print $filepath."\n";
 
-my $len = length("23242341");
-print $len."\n";
+my $len = "address=dbnk&addrid=169249&area=5&cardID=7MHXNELjUlvQyjt431sAgz3afp2OgxwbGWQo0lJiqrM%3D&city=1&consigneename=rrrrrrrrt&default=false&postcode=457555&province=1&sessionid=XNMOR5E3EK2HYMQTU8LHJFRO&tel=18645646644&town=44139&userid=566537929BB692F41C445544EAD8F0E8&signKey=566537929BB692F41C445544EAD8F0E8";
+print md5_hex($len)."\n";

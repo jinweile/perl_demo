@@ -84,8 +84,9 @@ Log::Log4perl->init("./log4perl.conf");
 	my @querys = split(/&/, $request);
 	my %query_hash;
 	foreach my $query (@querys) {
-		my @key_value = split(/=/, $query);
-		$query_hash{$key_value[0]} = !$key_value[1] ? "" : $key_value[1];
+		if($query =~ /^(.+?)=(.+?)$/){
+			$query_hash{$1} = $2;
+		}
 	}
 
 	my $request_sort = "";
